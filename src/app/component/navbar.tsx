@@ -46,9 +46,7 @@ export default function Navbar() {
       setUser(currentUser);
       setIsUserAuthenticated(authenticated);
     };
-
     checkAuth();
-
     // Listen for auth state changes
     const interval = setInterval(checkAuth, 1000);
     return () => clearInterval(interval);
@@ -250,76 +248,211 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Bottom navigation for mobile */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-black/10 bg-white/80 backdrop-blur-md">
-        <div className="max-w-[1280px] mx-auto px-2 py-1 grid grid-cols-4 gap-1">
-          <Link href="/" className={`flex flex-col items-center justify-center py-2 rounded-xl ${pathname === '/' ? 'text-[#1E498E] bg-[#1E498E]/10' : 'text-black/70'}`}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-              <path d="M11.47 3.84a.75.75 0 011.06 0l8.25 8.25a.75.75 0 01-1.06 1.06l-.72-.72V20.5A2.5 2.5 0 0116.5 23h-9A2.5 2.5 0 015 20.5v-8.07l-.72.72a.75.75 0 01-1.06-1.06l8.25-8.25z"/>
-            </svg>
-            <span className="text-xs mt-0.5">Beranda</span>
-          </Link>
-          <button 
-            onClick={() => setShowSiTenangMenu(!showSiTenangMenu)}
-            className={`flex flex-col items-center justify-center py-2 rounded-xl relative ${siTenangItems.some(item => pathname === item.href) ? 'text-[#1E498E] bg-[#1E498E]/10' : 'text-black/70'}`}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-              <path d="M4.5 6.75A2.25 2.25 0 016.75 4.5h10.5A2.25 2.25 0 0119.5 6.75v10.5A2.25 2.25 0 0117.25 19.5H6.75A2.25 2.25 0 014.5 17.25V6.75zm3 1.5a.75.75 0 000 1.5h9a.75.75 0 000-1.5h-9zm0 3a.75.75 0 000 1.5h9a.75.75 0 000-1.5h-9zm0 3a.75.75 0 000 1.5h5.25a.75.75 0 000-1.5H7.5z" />
-            </svg>
-            <span className="text-xs mt-0.5">SiTenang</span>
-            
-            {showSiTenangMenu && (
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 bg-white/95 backdrop-blur-md rounded-xl border border-black/10 shadow-lg py-2">
-                {siTenangItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setShowSiTenangMenu(false)}
-                    className={`block px-4 py-2 text-sm transition-colors ${
-                      pathname === item.href
-                        ? 'text-[#1E498E] bg-[#1E498E]/10 font-medium'
-                        : 'text-black/70'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="text-base">{item.icon}</span>
-                      <span>{item.label}</span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </button>
-          <Link href="/konsultasi" className={`flex flex-col items-center justify-center py-2 rounded-xl ${pathname === '/konsultasi' ? 'text-[#1E498E] bg-[#1E498E]/10' : 'text-black/70'}`}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-              <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm6.967-2.28a.75.75 0 10-1.06 1.06L11.31 14l4.97-4.97a.75.75 0 00-1.06-1.06L11.31 11.88 9.217 9.72z" clipRule="evenodd" />
-            </svg>
-            <span className="text-xs mt-0.5">Konsultasi</span>
-          </Link>
-          <Link href={isUserAuthenticated ? "/page/profile" : "/page/login"} className={`flex flex-col items-center justify-center py-2 rounded-xl ${pathname === '/page/profile' || pathname === '/page/login' ? 'text-[#1E498E] bg-[#1E498E]/10' : 'text-black/70'}`}>
-            {isUserAuthenticated && user ? (
-              user.photoURL ? (
-                <Image
-                  src={user.photoURL}
-                  alt="Profile"
-                  width={24}
-                  height={24}
-                  className="w-6 h-6 rounded-full object-cover"
-                />
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                </svg>
-              )
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                <path fillRule="evenodd" d="M3.75 4.5A2.25 2.25 0 016 2.25h6A2.25 2.25 0 0114.25 4.5v15a.75.75 0 01-1.5 0V4.5A.75.75 0 0012 3.75H6A.75.75 0 005.25 4.5v15a.75.75 0 01-1.5 0v-15zm9.72 8.28a.75.75 0 010 1.06l-3 3a.75.75 0 11-1.06-1.06L11.44 13.5H21a.75.75 0 000-1.5h-9.56l1.97-1.97a.75.75 0 011.06 0z" clipRule="evenodd" />
-              </svg>
-            )}
-            <span className="text-xs mt-0.5">{isUserAuthenticated ? 'Profil' : 'Masuk'}</span>
-          </Link>
+      {/* Bottom navigation for mobile - Redesigned */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50">
+        {/* Main Bottom Bar */}
+        <div className="relative bg-white/95 backdrop-blur-xl border-t border-gray-200/50 shadow-[0_-8px_32px_rgba(0,0,0,0.12)]">
+          <div className="max-w-[1280px] mx-auto px-4 pb-2 pt-1">
+            <div className="flex items-center justify-around relative">
+              {/* Home */}
+              <Link 
+                href="/" 
+                className={`flex flex-col items-center justify-center py-2 px-4 rounded-2xl transition-all duration-300 ${
+                  pathname === '/' 
+                    ? 'text-[#1E498E] scale-105' 
+                    : 'text-gray-500 hover:text-[#1E498E]'
+                }`}
+              >
+                <div className={`relative ${pathname === '/' ? 'animate-bounce' : ''}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7">
+                    <path d="M11.47 3.84a.75.75 0 011.06 0l8.25 8.25a.75.75 0 01-1.06 1.06l-.72-.72V20.5A2.5 2.5 0 0116.5 23h-9A2.5 2.5 0 015 20.5v-8.07l-.72.72a.75.75 0 01-1.06-1.06l8.25-8.25z"/>
+                  </svg>
+                  {pathname === '/' && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#1E498E] rounded-full"></span>
+                  )}
+                </div>
+                <span className={`text-[10px] mt-1 font-semibold ${pathname === '/' ? 'text-[#1E498E]' : ''}`}>
+                  Home
+                </span>
+              </Link>
+
+              {/* TenJin */}
+              <button 
+                onClick={() => setShowSiTenangMenu(!showSiTenangMenu)}
+                className={`flex flex-col items-center justify-center py-2 px-4 rounded-2xl transition-all duration-300 ${
+                  (pathname === '/page/suaratenjin' || pathname === '/page/ceritatenjin')
+                    ? 'text-[#1E498E] scale-105' 
+                    : 'text-gray-500 hover:text-[#1E498E]'
+                }`}
+              >
+                <div className="relative">
+                  <div className={`w-7 h-7 rounded-xl bg-gradient-to-br from-[#1E498E] to-[#2563eb] flex items-center justify-center ${
+                    (pathname === '/page/suaratenjin' || pathname === '/page/ceritatenjin') ? 'shadow-lg shadow-[#1E498E]/30' : ''
+                  }`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-4 h-4">
+                      <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+                <span className={`text-[10px] mt-1 font-semibold ${
+                  (pathname === '/page/suaratenjin' || pathname === '/page/ceritatenjin') ? 'text-[#1E498E]' : ''
+                }`}>
+                  TenJin
+                </span>
+              </button>
+
+              {/* Konsul - Center FAB */}
+              <Link 
+                href={isUserAuthenticated ? "/konsultasi" : "/page/login"}
+                className={`flex flex-col items-center justify-center py-2 px-4 rounded-2xl transition-all duration-300 ${
+                  (pathname === '/konsultasi' || pathname === '/page/login')
+                    ? 'text-[#1E498E] scale-105' 
+                    : 'text-gray-500 hover:text-[#1E498E]'
+                }`}
+              >
+                <div className="relative">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7">
+                    <path d="M11.7 2.805a.75.75 0 01.6 0A60.65 60.65 0 0122.83 8.72a.75.75 0 01-.231 1.337 49.949 49.949 0 00-9.902 3.912l-.003.002-.34.18a.75.75 0 01-.707 0A50.009 50.009 0 007.5 12.174v6.75a.75.75 0 01-.492.7 60.147 60.147 0 01-4.75 1.527.75.75 0 01-.557-.021A.75.75 0 011.5 20.25V8.25a.75.75 0 01.372-.648 60.116 60.116 0 0110.328-4.797zM9 6a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5H9z"/>
+                    <path d="M12.75 2.25a.75.75 0 00-.75.75v6.75a.75.75 0 001.5 0V3a.75.75 0 00-.75-.75zM16.5 6.75a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5H16.5z"/>
+                    <path d="M12 12.75a4.5 4.5 0 100 9 4.5 4.5 0 000-9zm2.25 4.5a.75.75 0 00-.75-.75h-3a.75.75 0 000 1.5h3a.75.75 0 00.75-.75z"/>
+                  </svg>
+                  {(pathname === '/konsultasi' || pathname === '/page/login') && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#1E498E] rounded-full"></span>
+                  )}
+                </div>
+                <span className={`text-[10px] mt-1 font-semibold ${
+                  (pathname === '/konsultasi' || pathname === '/page/login') ? 'text-[#1E498E]' : ''
+                }`}>
+                  Konsultasi
+                </span>
+              </Link>
+
+
+              {/* Profile */}
+              <Link 
+                href={isUserAuthenticated ? "/page/profile" : "/page/login"}
+                className={`flex flex-col items-center justify-center py-2 px-4 rounded-2xl transition-all duration-300 ${
+                  (pathname === '/page/profile' || pathname === '/page/login')
+                    ? 'text-[#1E498E] scale-105' 
+                    : 'text-gray-500 hover:text-[#1E498E]'
+                }`}
+              >
+                <div className="relative">
+                  {isUserAuthenticated && user ? (
+                    user.photoURL ? (
+                      <div className={`w-7 h-7 rounded-full ring-2 ${
+                        (pathname === '/page/profile' || pathname === '/page/login') 
+                          ? 'ring-[#1E498E] ring-offset-2' 
+                          : 'ring-gray-300'
+                      }`}>
+                        <Image
+                          src={user.photoURL}
+                          alt="Profile"
+                          width={28}
+                          height={28}
+                          className="w-full h-full rounded-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7">
+                        <path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clipRule="evenodd" />
+                      </svg>
+                    )
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7">
+                      <path fillRule="evenodd" d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zm10.72 4.72a.75.75 0 011.06 0l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 11-1.06-1.06l1.72-1.72H9a.75.75 0 010-1.5h10.94l-1.72-1.72a.75.75 0 010-1.06z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                  {(pathname === '/page/profile' || pathname === '/page/login') && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#1E498E] rounded-full"></span>
+                  )}
+                </div>
+                <span className={`text-[10px] mt-1 font-semibold ${
+                  (pathname === '/page/profile' || pathname === '/page/login') ? 'text-[#1E498E]' : ''
+                }`}>
+                  {isUserAuthenticated ? 'Profil' : 'Masuk'}
+                </span>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* TenJin Modal */}
+      {showSiTenangMenu && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="sm:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] animate-fadeIn"
+            onClick={() => setShowSiTenangMenu(false)}
+          ></div>
+          
+          {/* Modal Content */}
+          <div className="sm:hidden fixed inset-0 z-[101] flex items-center justify-center p-6 pointer-events-none">
+            <div className="w-full max-w-sm pointer-events-auto animate-scaleIn">
+              <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+                <div className="bg-gradient-to-br from-[#1E498E] via-[#2563eb] to-[#1E498E] p-6 text-white relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12"></div>
+                  <div className="relative z-10">
+                    <h3 className="text-2xl font-bold">Pilih TenJin</h3>
+                    <p className="text-sm text-white/90 mt-1">Cerita atau suara? Pilih sesuai keinginanmu</p>
+                  </div>
+                </div>
+                
+                <div className="p-5 space-y-3">
+                  <Link
+                    href="/page/ceritatenjin"
+                    onClick={() => setShowSiTenangMenu(false)}
+                    className="block group"
+                  >
+                    <div className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-100 hover:border-purple-300 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-3xl shadow-lg">
+                        💬
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-bold text-gray-900 text-base">Cerita TenJin</h4>
+                        <p className="text-xs text-gray-600 mt-0.5">Tulis dan bagikan ceritamu</p>
+                      </div>
+                      <svg className="w-6 h-6 text-purple-600 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/page/suaratenjin"
+                    onClick={() => setShowSiTenangMenu(false)}
+                    className="block group"
+                  >
+                    <div className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-100 hover:border-blue-300 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-3xl shadow-lg">
+                        🎤
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-bold text-gray-900 text-base">Suara TenJin</h4>
+                        <p className="text-xs text-gray-600 mt-0.5">Rekam dan dengarkan suaramu</p>
+                      </div>
+                      <svg className="w-6 h-6 text-blue-600 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </Link>
+                </div>
+
+                <div className="px-5 pb-5">
+                  <button
+                    onClick={() => setShowSiTenangMenu(false)}
+                    className="w-full py-3.5 text-sm font-semibold text-gray-700 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors"
+                  >
+                    Batal
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </header>
   );
 }
